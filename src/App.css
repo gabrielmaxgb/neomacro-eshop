@@ -1,8 +1,11 @@
 .App {
   text-align: center;
+  min-width: 100%;
+  min-height: 100vh;
+  background-color: aqua;
 }
 
-.App-logo {
+/* .App-logo {
   height: 40vmin;
   pointer-events: none;
 }
@@ -36,4 +39,4 @@
   100% {
     transform: translateY(0px);
   }
-}
+} */
