@@ -8,7 +8,7 @@ import {
 const AppRoutes = () => {
   return (
     <Routes>
-      <Route path="/" element={<Shop />} />
+      <Route index path="/" element={<Shop />} />
     </Routes>
   );
 }
