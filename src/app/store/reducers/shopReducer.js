@@ -1,9 +1,18 @@
 import {
-  CHANGE_TEST
+  CHANGE_TEST,
+  FILTER_TYPE_SELECT,
+  SET_FILTER_PARAMS
 } from "../actions/shopActions";
 
 const INITIAL_STATE = {
-  test: 'a'
+  filterType: '',
+  cartItemsAmount: 0,
+  cartItemsSubtotal: 0,
+  filterParams: {
+    maxValue: 0,
+    minValue: 0,
+    selectParam: '',
+  }
 };
 
 function shopReducer(state = INITIAL_STATE, action) {
@@ -11,10 +20,15 @@ function shopReducer(state = INITIAL_STATE, action) {
     payload
   } = action;
   switch (action.type) {
-    case CHANGE_TEST:
+    case FILTER_TYPE_SELECT:
       return {
         ...state,
-        test: payload,
+        filterType: payload,
+      };
+    case SET_FILTER_PARAMS:
+      return {
+        ...state,
+        filterParams: payload
       };
     default:
       return state;
