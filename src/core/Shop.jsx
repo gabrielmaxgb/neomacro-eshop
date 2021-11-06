@@ -1,6 +1,8 @@
 import { Container, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import React from 'react'
+import { connect } from 'react-redux';
+import { changeTest as changeTestAction } from '../app/store/actions/shopActions';
 import Header from './Header';
 
 const useStyles = makeStyles((theme) => ({
@@ -14,6 +16,9 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 function Shop(props) {
+  const {
+    changeTest
+  } = props;
   const classes = useStyles();
 
   return (
@@ -38,9 +43,19 @@ function Shop(props) {
         }}
       >
         Shop
+        {console.log(props.shop)}
+        <button onClick={() => changeTest('b')}>Muda teste pra 'b'</button>
       </Grid>
     </Container>
   )
 }
 
-export default Shop;
+const mapStateToProps = (state) => ({
+  shop: state.shopReducer
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  changeTest: (testValue) => dispatch(changeTestAction(testValue))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Shop);
