@@ -1,6 +1,7 @@
 import {
-  CHANGE_TEST,
+  // CHANGE_TEST,
   FILTER_TYPE_SELECT,
+  GET_ALL_PRODUCTS,
   SET_FILTER_PARAMS
 } from "../actions/shopActions";
 
@@ -12,7 +13,8 @@ const INITIAL_STATE = {
     maxValue: 0,
     minValue: 0,
     selectParam: '',
-  }
+  },
+  allProducts: undefined,
 };
 
 function shopReducer(state = INITIAL_STATE, action) {
@@ -29,6 +31,11 @@ function shopReducer(state = INITIAL_STATE, action) {
       return {
         ...state,
         filterParams: payload
+      };
+    case GET_ALL_PRODUCTS:
+      return {
+        ...state,
+        allProducts: payload
       };
     default:
       return state;

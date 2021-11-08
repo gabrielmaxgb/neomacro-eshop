@@ -1,4 +1,4 @@
-import { Grid, InputBase, makeStyles, alpha, IconButton, Typography } from '@material-ui/core'
+import { Grid, InputBase, makeStyles, IconButton, Typography } from '@material-ui/core'
 import React, { useState } from 'react'
 import Headersfilter from '../components/HeadersFilter'
 import { ReactComponent as Logo } from '../icons/Logo.svg';
@@ -151,14 +151,7 @@ function Header(props) {
             </IconButton>
             <Typography
               variant="body2"
-            // color="body1"
-            // color={'initial'
-            //   | 'inherit'
-            //   | 'primary'
-            //   | 'secondary'
-            //   | 'textPrimary'
-            //   | 'textSecondary'
-            //   | 'error'}
+              component="span"
             >
               Sub total: {shopState.cartItemsSubtotal} €
             </Typography>

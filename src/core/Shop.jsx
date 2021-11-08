@@ -1,14 +1,17 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Container, Grid, makeStyles } from '@material-ui/core';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import {
-  changeTest as changeTestAction,
-  filterTypeSelect as filterTypeSelectAction
+  // changeTest as changeTestAction,
+  filterTypeSelect as filterTypeSelectAction,
+  getAllProducts as getAllProductsAction
 } from '../app/store/actions/shopActions';
 import SimpleSelect from '../components/SimpleSelect';
 import Header from './Header';
+import { LocalConvenienceStoreOutlined } from '@material-ui/icons';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,13 +38,14 @@ const useStyles = makeStyles((theme) => ({
 function Shop(props) {
   const {
     shopState,
-    changeTest,
-    filterTypeSelect
+    // changeTest,
+    filterTypeSelect,
+    getAllProducts
   } = props;
   const theme = useTheme();
   const xs = useMediaQuery(theme.breakpoints.only('xs'));
   // console.log(xs);
-  const widthControl = [xs]
+  // const widthControl = [xs]
   const [filterType, setFilterType] = useState('');
   const classes = useStyles({ xs });
   const filterOptions = [
@@ -55,15 +59,17 @@ function Shop(props) {
     },
   ];
 
+  console.log('aqui ó besta');
+  console.log(shopState);
+  useEffect(() => {
+    getAllProducts();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const handleFilterTypeChange = (event) => {
     setFilterType(event.target.value);
     filterTypeSelect(event.target.value);
   };
-
-  // console.log(shopState)
-  // console.log('filter type:' + ' ' + filterType);
-  // console.log('baixo');
-  // console.log(classes.formControl);
 
   return (
     <Container
@@ -103,22 +109,6 @@ function Shop(props) {
             options={filterOptions}
             className={classes.formControl}
           />
-          {/* <FormControl variant="outlined" className={classes.formControl}>
-            <InputLabel id="demo-simple-select-outlined-label">Sort by</InputLabel>
-            <Select
-              labelId="demo-simple-select-outlined-label"
-              id="demo-simple-select-outlined"
-              value={filterType}
-              onChange={handleFilterTypeChange}
-              label="Sort by"
-            >
-              <MenuItem value="None">
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value="rating">Rating</MenuItem>
-              <MenuItem value="price">Price</MenuItem>
-            </Select>
-          </FormControl> */}
         </Grid>
         <Grid
           container
@@ -129,8 +119,6 @@ function Shop(props) {
         >
           products list
         </Grid>
-        {/* {console.log(props.shop)}
-        <button onClick={() => changeTest('b')}>Muda teste pra 'b'</button> */}
       </Grid>
     </Container>
   )
@@ -141,8 +129,9 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  changeTest: (testValue) => dispatch(changeTestAction(testValue)),
+  // changeTest: (testValue) => dispatch(changeTestAction(testValue)),
   filterTypeSelect: (filterType) => dispatch(filterTypeSelectAction(filterType)),
+  getAllProducts: () => dispatch(getAllProductsAction()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Shop);

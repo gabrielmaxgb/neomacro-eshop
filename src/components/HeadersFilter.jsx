@@ -86,7 +86,7 @@ const Headersfilter = (props) => {
   };
 
   // handleApplyFilter(maxValue, minValue, selectParam);
-  console.log(shopState);
+  // console.log(shopState);
 
   return (
     <Grid
@@ -143,9 +143,6 @@ const Headersfilter = (props) => {
           Apply filters
         </Button>
       </Grid>
-      {/* <button onClick={() => handleApplyFilter(maxValue, minValue, selectParam)}>
-        apply filters button
-      </button> */}
     </Grid >
   );
 }
