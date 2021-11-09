@@ -1,4 +1,4 @@
-import { Box, Button, Grid, makeStyles, Typography } from '@material-ui/core';
+import { Button, Grid, makeStyles, Typography } from '@material-ui/core';
 import React from 'react';
 import { truncateString } from '../utils';
 import Rating from '@material-ui/lab/Rating';
