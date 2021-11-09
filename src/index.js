@@ -10,7 +10,7 @@ import { createTheme, ThemeProvider } from '@material-ui/core';
 
 const theme = createTheme({
   typography: {
-    fontFamily: [].join(','),
+    // fontFamily: [].join(','),
     h1: {
 
     },
@@ -39,7 +39,11 @@ const theme = createTheme({
     subtitle3: {
 
     body1: {
-
+      fontWeight: 'normal',
+      fontSize: '16px',
+      lineHeight: '150%',
+      letterSpacing: '0.0275em',
+      color: 'red',
     },
     body2: {
       color: "#FFFFFF",
@@ -49,9 +53,6 @@ const theme = createTheme({
     caption: {
 
     },
-  },
-  button: {
-
   },
 }});
 

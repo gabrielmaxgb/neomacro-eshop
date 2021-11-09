@@ -22,13 +22,6 @@ function SimpleSelect(props) {
         {option.label}
       </MenuItem>
     )
-
-    //   <MenuItem value="None">
-    //     <em>None</em>
-    //   </MenuItem>
-    //   <MenuItem value="rating">Rating</MenuItem>
-    //   <MenuItem value="price">Price</MenuItem>
-    // ;
   };
 
   return (

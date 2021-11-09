@@ -1,4 +1,4 @@
-import { Button, FormControl, Grid, makeStyles, TextField } from '@material-ui/core';
+import { Button, FormControl, Grid, makeStyles } from '@material-ui/core';
 import React, { useState } from 'react';
 import CurrencyTextField from '@unicef/material-ui-currency-textfield'
 import SimpleSelect from './SimpleSelect';
@@ -62,7 +62,7 @@ const Headersfilter = (props) => {
   const classes = useStyles();
   const [maxValue, setMaxValue] = useState(0);
   const [minValue, setMinValue] = useState(0);
-  const [selectParam, setSelectParam] = useState('test');
+  const [selectParam, setSelectParam] = useState('');
 
   const handleMaxValueChange = (value) => {
     setMaxValue(value);
@@ -73,7 +73,11 @@ const Headersfilter = (props) => {
   };
 
   const handleSelectParamChange = (e) => {
-    setSelectParam(e.target.value)
+    shopState.filterType === 'none' ? (
+      setSelectParam('')
+    ) : (
+      setSelectParam(e.target.value)
+    );
   };
 
   const handleApplyFilter = (maxValue, minValue, selectParam) => {
@@ -82,6 +86,7 @@ const Headersfilter = (props) => {
       minValue: minValue,
       selectParam: selectParam
     }
+    console.log(filterParamsData);
     setFilterParamsData(filterParamsData);
   };
 
@@ -124,10 +129,12 @@ const Headersfilter = (props) => {
           />
           <SimpleSelect
             label={shopState.filterType === 'none' ? 'Any filter applied' : capitalize(shopState.filterType)}
-            disabled={shopState.filterType === 'none' || shopState.filterType === '' ? true : false}
+            disabled={
+              // shopState.filterType === 'none' ||
+              shopState.filterType === '' ? true : false}
             value={selectParam}
             onChange={handleSelectParamChange}
-            options={shopState.filterType === 'none' ? [{ label: 'Any filter aplyed', value: '' }] : [{ label: '1 and above', value: '1-and-above' }]}
+            options={shopState.filterType === 'none' ? [{ label: 'Any', value: undefined }] : [{ label: '1 and above', value: '1-and-above' }]}
             className={classes.filterSpecified}
           />
         </FormControl>

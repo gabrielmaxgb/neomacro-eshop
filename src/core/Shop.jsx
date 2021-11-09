@@ -10,7 +10,9 @@ import {
 } from '../app/store/actions/shopActions';
 import SimpleSelect from '../components/SimpleSelect';
 import Header from './Header';
-import { LocalConvenienceStoreOutlined } from '@material-ui/icons';
+import Genericloading from '../components/GenericLoading';
+import ProductCard from '../components/ProductCard';
+// import { LocalConvenienceStoreOutlined } from '@material-ui/icons';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -38,14 +40,11 @@ const useStyles = makeStyles((theme) => ({
 function Shop(props) {
   const {
     shopState,
-    // changeTest,
     filterTypeSelect,
     getAllProducts
   } = props;
   const theme = useTheme();
   const xs = useMediaQuery(theme.breakpoints.only('xs'));
-  // console.log(xs);
-  // const widthControl = [xs]
   const [filterType, setFilterType] = useState('');
   const classes = useStyles({ xs });
   const filterOptions = [
@@ -61,15 +60,36 @@ function Shop(props) {
 
   console.log('aqui ó besta');
   console.log(shopState);
+
   useEffect(() => {
     getAllProducts();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleFilterTypeChange = (event) => {
     setFilterType(event.target.value);
     filterTypeSelect(event.target.value);
   };
+
+  const renderAllProducts = () => {
+    console.log('renderAllProducts:');
+    console.log(typeof shopState.allProductsLoading);
+    return shopState.allProducts.map((productData) =>
+      <Grid
+        item
+        container
+        alignItems="center"
+        justifyContent="center"
+        spacing={0}
+        xs={6}
+        sm={4}
+      >
+        <ProductCard
+          productData={productData}
+        />
+      </Grid>
+    );
+  }
 
   return (
     <Container
@@ -113,11 +133,25 @@ function Shop(props) {
         <Grid
           container
           item
-          alignItems="center"
+          // alignItems="center"
           justifyContent="center"
           xs={12}
+          style={{ maxWidth: '900px' }}
         >
-          products list
+          {/* {
+            shopState.allProductsLoading ? (
+              <span>true</span>
+            ) : (
+              <span>false</span>
+            )
+          } */}
+          {
+            shopState.allProductsLoading ? (
+              <Genericloading />
+            ) : (
+              renderAllProducts()
+            )
+          }
         </Grid>
       </Grid>
     </Container>

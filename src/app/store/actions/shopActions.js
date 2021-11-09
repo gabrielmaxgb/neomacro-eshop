@@ -1,9 +1,14 @@
-import { API_KEY, BASE_API } from "../../config/consts";
+import {
+  API_KEY,
+  BASE_API
+} from "../../config/consts";
 
 // export const CHANGE_TEST = 'CHANGE_TEST';
 export const FILTER_TYPE_SELECT = 'FILTER_TYPE_SELECT';
 export const SET_FILTER_PARAMS = 'SET_FILTER_PARAMS';
 export const GET_ALL_PRODUCTS = 'GET_ALL_PRODUCTS';
+
+export const GET_ALL_PRODUCTS_LOADING = 'GET_ALL_PRODUCTS_LOADING';
 
 // export const changeTest = (testValue) => ({
 //   type: CHANGE_TEST,
@@ -30,8 +35,11 @@ export const setFilterParams = ({
 
 export const getAllProducts = () => {
   return dispatch => {
-    fetch(BASE_API,
-      {
+    dispatch({
+      type: GET_ALL_PRODUCTS_LOADING,
+      payload: true,
+    });
+    fetch(BASE_API, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -42,7 +50,8 @@ export const getAllProducts = () => {
           query: `{
             allProducts {
               image {
-                id
+                id,
+                url
               },
               description,
               rating,
@@ -51,17 +60,22 @@ export const getAllProducts = () => {
             }
           }`
         }),
-      }
-    )
-    .then(res => res.json())
-    .then((res) => {
-      return dispatch({
-        type: GET_ALL_PRODUCTS,
-        payload: res.data
       })
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+      .then(res => res.json())
+      .then((res) => {
+        console.log('action')
+        console.log(res.data.allProducts)
+        dispatch({
+          type: GET_ALL_PRODUCTS,
+          payload: res.data.allProducts
+        });
+        dispatch({
+          type: GET_ALL_PRODUCTS_LOADING,
+          payload: false,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 };
