@@ -12,6 +12,8 @@ import Badge from '@material-ui/core/Badge';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import ShoppingCartOutlined from '@material-ui/icons/ShoppingCartOutlined';
+import clsx from 'clsx';
+import { setMainSearch as setMainSearchAction } from '../app/store/actions/shopActions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -64,6 +66,15 @@ const useStyles = makeStyles((theme) => ({
     "& .MuiOutlinedInput-input": {
       // padding: '.6rem',
     }
+  },
+  shoppingCartDetail: {
+    color: '#F9F9F9',
+  },
+  cartAmount: {
+    fontWeight: 600,
+    fontSize: '16px',
+    lineHeight: '150%',
+    letterSpacing: '0.0075em',
   }
 }));
 
@@ -78,12 +89,20 @@ const StyledBadge = withStyles((theme) => ({
 
 function Header(props) {
   const {
-    shopState
+    shopState,
+    setMainSearch
   } = props;
+  const [searchBarValue, setSearchBarValue] = useState('');
   const [language, setLanguage] = useState('eng-US');
   const theme = useTheme();
   const xs = useMediaQuery(theme.breakpoints.only('xs'));
   const classes = useStyles({ xs });
+
+  const handleSearchBarChange = (event) => {
+    // const search = event.target.value;
+    setMainSearch(event.target.value);
+    console.log(shopState);
+  }
 
   return (
     <Grid
@@ -121,6 +140,7 @@ function Header(props) {
                 input: classes.inputInput,
               }}
               inputProps={{ 'aria-label': 'search' }}
+              onChange={event => handleSearchBarChange(event)}
             />
           </div>
         </Grid>
@@ -146,11 +166,12 @@ function Header(props) {
           >
             <IconButton aria-label="cart">
               <StyledBadge badgeContent={shopState.cartItemsAmount} color="secondary">
-                <ShoppingCartOutlined style={{ color: "#F9F9F9" }} />
+                <ShoppingCartOutlined className={classes.shoppingCartDetail} />
               </StyledBadge>
             </IconButton>
             <Typography
-              variant="body2"
+              className={clsx(classes.shoppingCartDetail, classes.cartAmount)}
+              // variant="body1"
               component="span"
             >
               Sub total: {shopState.cartItemsSubtotal} €
@@ -167,4 +188,9 @@ const mapStateToProps = (state) => ({
   shopState: state.shopReducer,
 });
 
-export default connect(mapStateToProps, null)(Header);
+const mapDispatchToProps = (dispatch) => ({
+  setMainSearch: (mainSearch) => dispatch(setMainSearchAction(mainSearch)),
+});
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

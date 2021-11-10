@@ -9,4 +9,8 @@ export const SubtotalCartButton = styled.div `
   height: 48px;
   background-color: #2264D1;
   border-radius: 4px;
+
+  :hover {
+    cursor: pointer;
+  }
 `;

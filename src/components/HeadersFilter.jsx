@@ -51,6 +51,8 @@ const useStyles = makeStyles((theme) => ({
     margin: '0 2rem',
     fontWeight: 'bold',
     textTransform: 'none',
+    color: '#2264D1',
+    border: `1px solid #9DC2FF`,
   }
 }));
 
@@ -74,7 +76,7 @@ const Headersfilter = (props) => {
 
   const handleSelectParamChange = (e) => {
     shopState.filterType === 'none' ? (
-      setSelectParam('')
+      setSelectParam('no-filter')
     ) : (
       setSelectParam(e.target.value)
     );
@@ -86,7 +88,7 @@ const Headersfilter = (props) => {
       minValue: minValue,
       selectParam: selectParam
     }
-    console.log(filterParamsData);
+    // console.log(filterParamsData);
     setFilterParamsData(filterParamsData);
   };
 
@@ -128,13 +130,13 @@ const Headersfilter = (props) => {
             digitGroupSeparator="."
           />
           <SimpleSelect
-            label={shopState.filterType === 'none' ? 'Any filter applied' : capitalize(shopState.filterType)}
+            label={shopState.filterType === 'none' ? 'Any sort' : capitalize(shopState.filterType)}
             disabled={
               // shopState.filterType === 'none' ||
-              shopState.filterType === '' ? true : false}
+              shopState.filterType === 'none' || shopState.filterType.length === 0 ? true : false}
             value={selectParam}
             onChange={handleSelectParamChange}
-            options={shopState.filterType === 'none' ? [{ label: 'Any', value: undefined }] : [{ label: '1 and above', value: '1-and-above' }]}
+            options={shopState.filterType === 'none' ? [{ label: 'Any', value: 'no-filter' }] : [{ label: '1 and above', value: '1-and-above' }]}
             className={classes.filterSpecified}
           />
         </FormControl>
@@ -145,7 +147,6 @@ const Headersfilter = (props) => {
           className={classes.filterButton}
           variant="outlined"
           onClick={() => handleApplyFilter(maxValue, minValue, selectParam)}
-          color="primary"
         >
           Apply filters
         </Button>

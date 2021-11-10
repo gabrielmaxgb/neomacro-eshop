@@ -3,7 +3,8 @@ import {
   FILTER_TYPE_SELECT,
   GET_ALL_PRODUCTS,
   GET_ALL_PRODUCTS_LOADING,
-  SET_FILTER_PARAMS
+  SET_FILTER_PARAMS,
+  SET_MAIN_SEARCH
 } from "../actions/shopActions";
 
 const INITIAL_STATE = {
@@ -11,12 +12,13 @@ const INITIAL_STATE = {
   cartItemsAmount: 0,
   cartItemsSubtotal: 0,
   filterParams: {
-    maxValue: 0,
-    minValue: 0,
-    selectParam: '',
+    maxValue: undefined,
+    minValue: undefined,
+    selectParam: 'no-filter',
   },
   allProducts: [],
   allProductsLoading: false,
+  mainSearch: undefined,
 };
 
 function shopReducer(state = INITIAL_STATE, action) {
@@ -43,6 +45,11 @@ function shopReducer(state = INITIAL_STATE, action) {
       return {
         ...state,
         allProductsLoading: payload
+      };
+    case SET_MAIN_SEARCH:
+      return {
+        ...state,
+        mainSearch: payload
       };
     default:
       return state;

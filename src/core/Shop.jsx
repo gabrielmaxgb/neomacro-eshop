@@ -72,22 +72,90 @@ function Shop(props) {
   };
 
   const renderAllProducts = () => {
-    console.log('renderAllProducts:');
-    console.log(typeof shopState.allProductsLoading);
-    return shopState.allProducts.map((productData) =>
-      <Grid
-        item
-        container
-        alignItems="center"
-        justifyContent="center"
-        spacing={0}
-        xs={6}
-        sm={4}
-      >
-        <ProductCard
-          productData={productData}
-        />
-      </Grid>
+
+    // NOTE: O sort by entra antes de qualquer filter e map nessa função aqui
+
+    if (shopState.filterParams.selectParam === 'no-filter') {
+      return shopState.allProducts
+        .map((productData) =>
+          <Grid
+            item
+            container
+            alignItems="center"
+            justifyContent="center"
+            spacing={0}
+            xs={6}
+            sm={4}
+          >
+            <ProductCard
+              productData={productData}
+            />
+          </Grid>
+        )
+    };
+
+    // NOTE: Apply filters here
+    return shopState.mainSearch ? (
+      shopState.allProducts
+        .filter((productData) =>
+          productData.description.includes(shopState.mainSearch) &&
+          (productData.price >= shopState.filterParams.minValue &&
+            productData.price <= shopState.filterParams.maxValue))
+        .map((productData) =>
+          <Grid
+            item
+            container
+            alignItems="center"
+            justifyContent="center"
+            spacing={0}
+            xs={6}
+            sm={4}
+          >
+            <ProductCard
+              productData={productData}
+            />
+          </Grid>
+        )
+    ) : (
+      shopState.filterParams.minValue !== undefined &&
+        shopState.filterParams.maxValue !== undefined ? (
+        shopState.allProducts
+          .filter((productData) =>
+          (productData.price >= shopState.filterParams.minValue &&
+            productData.price <= shopState.filterParams.maxValue))
+          .map((productData) =>
+            <Grid
+              item
+              container
+              alignItems="center"
+              justifyContent="center"
+              spacing={0}
+              xs={6}
+              sm={4}
+            >
+              <ProductCard
+                productData={productData}
+              />
+            </Grid>
+          )
+      ) : (
+        shopState.allProducts
+          .map((productData) =>
+            <Grid
+              item
+              container
+              alignItems="center"
+              justifyContent="center"
+              spacing={0}
+              xs={6}
+              sm={4}
+            >
+              <ProductCard
+                productData={productData}
+              />
+            </Grid>
+          )
+      )
     );
   }
 
@@ -136,15 +204,9 @@ function Shop(props) {
           // alignItems="center"
           justifyContent="center"
           xs={12}
+          spacing={2}
           style={{ maxWidth: '900px' }}
         >
-          {/* {
-            shopState.allProductsLoading ? (
-              <span>true</span>
-            ) : (
-              <span>false</span>
-            )
-          } */}
           {
             shopState.allProductsLoading ? (
               <Genericloading />
@@ -163,7 +225,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  // changeTest: (testValue) => dispatch(changeTestAction(testValue)),
   filterTypeSelect: (filterType) => dispatch(filterTypeSelectAction(filterType)),
   getAllProducts: () => dispatch(getAllProductsAction()),
 });

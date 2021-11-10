@@ -34,7 +34,7 @@ function SimpleSelect(props) {
         id="demo-simple-select-outlined"
         value={value}
         onChange={onChange}
-        label={label}
+        label={label || null}
         disabled={disabled || false}
       >
         {renderOptions()}

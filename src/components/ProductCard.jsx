@@ -1,7 +1,9 @@
 import { Button, Grid, makeStyles, Typography } from '@material-ui/core';
-import React from 'react';
+import React, { useState } from 'react';
 import { truncateString } from '../utils';
 import Rating from '@material-ui/lab/Rating';
+import SimpleSelect from './SimpleSelect';
+// import { useTheme } from '@material-ui/styles';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -10,13 +12,38 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: '4px',
     maxWidth: '288px',
     padding: '.4rem',
-    // minHeight: '484px',
+    // minHeight:  '454px',
+    maxHeight: '484px',
   },
   addButton: {
     minWidth: '85%',
     margin: '.5rem 0',
     textTransform: 'none',
-    color: theme.palette.primary
+    color: '#2264D1',
+    border: `1px solid #9DC2FF`,
+    boxSizing: 'border-box',
+    borderRadius: '4px',
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: props => props.xs ? 70 : 90,
+    textAlign: 'start',
+    boxSizing: 'border-box',
+    borderRadius: '4px',
+    padding: '.6rem',
+
+    "& .MuiOutlinedInput-input": {
+      padding: '.6rem',
+    }
+  },
+  productPrice: {
+    fontStyle: 'normal',
+    fontWeight: 'bold',
+    fontSize: '24px',
+    lineHeight: '150%',
+    // display: flex;
+    // alignItems: 'center',
+    color: 'rgba(0, 0, 0, 0.87)',
   }
 }));
 
@@ -24,7 +51,20 @@ const ProductCard = (props) => {
   const {
     productData
   } = props;
+  const [itemAmount, setItemAmount] = useState(1);
   const classes = useStyles();
+  // NOTE not pratical purpose
+  const itemAmountOptions = [
+    {
+      label: '1',
+      value: 1
+    },
+  ];
+
+  const handleItemAmountChange = (event) => {
+    setItemAmount(event.target.value);
+    // filterTypeSelect(event.target.value);
+  };
 
   return (
     <Grid
@@ -42,11 +82,12 @@ const ProductCard = (props) => {
         item
         container
         direction="column"
+        justifyContent="space-around"
         xs={12}
         component="section"
       >
-        <span>image</span>
-        <Typography variant="body1" component="p" style={{ textAlign: 'start' }}>
+        <img src={productData.image.url} alt="your-product" />
+        <Typography variant="body1" component="p" style={{ textAlign: 'start', minHeight: '60px' }}>
           {truncateString(productData.description, 50)}
         </Typography>
       </Grid>
@@ -70,7 +111,6 @@ const ProductCard = (props) => {
             paddingLeft: 0
           }}
         >
-          {/* <Typography component="legend">Read only</Typography> */}
           <Rating name="rating" value={productData.rating} precision={0.1} readOnly />
           <Typography variant="body1" component="p" mx={15}>{productData.rating}</Typography>
         </Grid>
@@ -82,12 +122,20 @@ const ProductCard = (props) => {
         justifyContent="space-between"
         component="section"
       >
-        <Typography variant="body1" component="p">
+        <Typography className={classes.productPrice} component="p">
           $ {productData.price}
         </Typography>
-        <Typography variant="body1" component="p">
+        <SimpleSelect
+          label="Qt."
+          value={itemAmount}
+          onChange={handleItemAmountChange}
+          options={itemAmountOptions}
+          className={classes.formControl}
+          variant="outlined"
+        />
+        {/* <Typography variant="body1" component="p">
           {productData.amount}
-        </Typography>
+        </Typography> */}
       </Grid>
       <Button className={classes.addButton} variant="outlinde" color="secondary">
         Add to cart
