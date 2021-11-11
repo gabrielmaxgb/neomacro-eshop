@@ -9,6 +9,7 @@ export const SET_FILTER_PARAMS = 'SET_FILTER_PARAMS';
 export const GET_ALL_PRODUCTS = 'GET_ALL_PRODUCTS';
 export const SET_PRODUCT_TO_CART_AMOUNT = 'SET_PRODUCT_TO_CART_AMOUNT';
 export const SET_MAIN_SEARCH = 'SET_MAIN_SEARCH';
+export const SET_CART_SUBTOTAL = 'SET_CART_SUBTOTAL';
 
 export const GET_ALL_PRODUCTS_LOADING = 'GET_ALL_PRODUCTS_LOADING';
 
@@ -43,6 +44,11 @@ export const setFilterParams = ({
     minValue: minValue,
     selectParam: selectParam,
   }
+});
+
+export const setCartSubtotal = (newSubtotal) => ({
+  type: SET_CART_SUBTOTAL,
+  payload: newSubtotal
 });
 
 export const getAllProducts = () => {

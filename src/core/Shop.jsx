@@ -11,7 +11,8 @@ import {
 import SimpleSelect from '../components/SimpleSelect';
 import Header from './Header';
 import Genericloading from '../components/GenericLoading';
-import ProductCard from '../components/ProductCard';
+import FilteredProducts from '../components/FilteredProducts';
+import Pagination from '@material-ui/lab/Pagination';
 // import { LocalConvenienceStoreOutlined } from '@material-ui/icons';
 
 
@@ -58,106 +59,17 @@ function Shop(props) {
     },
   ];
 
-  console.log('aqui ó besta');
-  console.log(shopState);
-
   useEffect(() => {
     getAllProducts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleFilterTypeChange = (event) => {
-    setFilterType(event.target.value);
+    // setFilterType(event.target.value);
     filterTypeSelect(event.target.value);
   };
 
-  const renderAllProducts = () => {
 
-    // NOTE: O sort by entra antes de qualquer filter e map nessa função aqui
-
-    if (shopState.filterParams.selectParam === 'no-filter') {
-      return shopState.allProducts
-        .map((productData) =>
-          <Grid
-            item
-            container
-            alignItems="center"
-            justifyContent="center"
-            spacing={0}
-            xs={6}
-            sm={4}
-          >
-            <ProductCard
-              productData={productData}
-            />
-          </Grid>
-        )
-    };
-
-    // NOTE: Apply filters here
-    return shopState.mainSearch ? (
-      shopState.allProducts
-        .filter((productData) =>
-          productData.description.includes(shopState.mainSearch) &&
-          (productData.price >= shopState.filterParams.minValue &&
-            productData.price <= shopState.filterParams.maxValue))
-        .map((productData) =>
-          <Grid
-            item
-            container
-            alignItems="center"
-            justifyContent="center"
-            spacing={0}
-            xs={6}
-            sm={4}
-          >
-            <ProductCard
-              productData={productData}
-            />
-          </Grid>
-        )
-    ) : (
-      shopState.filterParams.minValue !== undefined &&
-        shopState.filterParams.maxValue !== undefined ? (
-        shopState.allProducts
-          .filter((productData) =>
-          (productData.price >= shopState.filterParams.minValue &&
-            productData.price <= shopState.filterParams.maxValue))
-          .map((productData) =>
-            <Grid
-              item
-              container
-              alignItems="center"
-              justifyContent="center"
-              spacing={0}
-              xs={6}
-              sm={4}
-            >
-              <ProductCard
-                productData={productData}
-              />
-            </Grid>
-          )
-      ) : (
-        shopState.allProducts
-          .map((productData) =>
-            <Grid
-              item
-              container
-              alignItems="center"
-              justifyContent="center"
-              spacing={0}
-              xs={6}
-              sm={4}
-            >
-              <ProductCard
-                productData={productData}
-              />
-            </Grid>
-          )
-      )
-    );
-  }
 
   return (
     <Container
@@ -211,9 +123,13 @@ function Shop(props) {
             shopState.allProductsLoading ? (
               <Genericloading />
             ) : (
-              renderAllProducts()
+              // renderAllProducts()
+              <FilteredProducts shopState={shopState} />
             )
           }
+        </Grid>
+        <Grid item container alignItems="center" justifyContent="center" xs={12} style={{ margin: '3rem' }}>
+          <Pagination count={5} color="primary" />
         </Grid>
       </Grid>
     </Container>

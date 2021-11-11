@@ -76,7 +76,7 @@ const Headersfilter = (props) => {
 
   const handleSelectParamChange = (e) => {
     shopState.filterType === 'none' ? (
-      setSelectParam('no-filter')
+      setSelectParam('no-sort')
     ) : (
       setSelectParam(e.target.value)
     );
@@ -131,12 +131,12 @@ const Headersfilter = (props) => {
           />
           <SimpleSelect
             label={shopState.filterType === 'none' ? 'Any sort' : capitalize(shopState.filterType)}
-            disabled={
-              // shopState.filterType === 'none' ||
-              shopState.filterType === 'none' || shopState.filterType.length === 0 ? true : false}
+            // disabled={
+            //   // shopState.filterType === 'none' ||
+            //   shopState.filterType === 'none' || shopState.filterType.length === 0 ? true : false}
             value={selectParam}
             onChange={handleSelectParamChange}
-            options={shopState.filterType === 'none' ? [{ label: 'Any', value: 'no-filter' }] : [{ label: '1 and above', value: '1-and-above' }]}
+            options={shopState.filterType === 'none' ? [{ label: 'Any', value: 'no-sort' }] : [{ label: '1 and above', value: '1-and-above' }]}
             className={classes.filterSpecified}
           />
         </FormControl>

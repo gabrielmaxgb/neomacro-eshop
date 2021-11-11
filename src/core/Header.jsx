@@ -8,12 +8,12 @@ import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { SubtotalCartButton } from './style';
 import Badge from '@material-ui/core/Badge';
-// import { withStyles } from '@material-ui/styles';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import ShoppingCartOutlined from '@material-ui/icons/ShoppingCartOutlined';
 import clsx from 'clsx';
 import { setMainSearch as setMainSearchAction } from '../app/store/actions/shopActions';
+import { formatPrice } from '../utils';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -92,7 +92,6 @@ function Header(props) {
     shopState,
     setMainSearch
   } = props;
-  const [searchBarValue, setSearchBarValue] = useState('');
   const [language, setLanguage] = useState('eng-US');
   const theme = useTheme();
   const xs = useMediaQuery(theme.breakpoints.only('xs'));
@@ -174,7 +173,7 @@ function Header(props) {
               // variant="body1"
               component="span"
             >
-              Sub total: {shopState.cartItemsSubtotal} €
+              Sub total: {formatPrice(shopState.cartItemsSubtotal)} €
             </Typography>
           </SubtotalCartButton>
         </Grid>

@@ -3,6 +3,7 @@ import {
   FILTER_TYPE_SELECT,
   GET_ALL_PRODUCTS,
   GET_ALL_PRODUCTS_LOADING,
+  SET_CART_SUBTOTAL,
   SET_FILTER_PARAMS,
   SET_MAIN_SEARCH
 } from "../actions/shopActions";
@@ -14,7 +15,7 @@ const INITIAL_STATE = {
   filterParams: {
     maxValue: undefined,
     minValue: undefined,
-    selectParam: 'no-filter',
+    selectParam: 'no-sort',
   },
   allProducts: [],
   allProductsLoading: false,
@@ -50,6 +51,11 @@ function shopReducer(state = INITIAL_STATE, action) {
       return {
         ...state,
         mainSearch: payload
+      };
+    case SET_CART_SUBTOTAL:
+      return {
+        ...state,
+        cartItemsSubtotal: payload
       };
     default:
       return state;

@@ -1,8 +1,10 @@
 import { Button, Grid, makeStyles, Typography } from '@material-ui/core';
 import React, { useState } from 'react';
-import { truncateString } from '../utils';
+import { formatPrice, truncateString } from '../utils';
 import Rating from '@material-ui/lab/Rating';
 import SimpleSelect from './SimpleSelect';
+import { connect } from 'react-redux';
+import { setCartSubtotal as setCartSubtotalAction } from '../app/store/actions/shopActions';
 // import { useTheme } from '@material-ui/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -49,7 +51,9 @@ const useStyles = makeStyles((theme) => ({
 
 const ProductCard = (props) => {
   const {
-    productData
+    productData,
+    shopState,
+    setCartSubtotal
   } = props;
   const [itemAmount, setItemAmount] = useState(1);
   const classes = useStyles();
@@ -65,6 +69,12 @@ const ProductCard = (props) => {
     setItemAmount(event.target.value);
     // filterTypeSelect(event.target.value);
   };
+
+  const handleAddToCart = () => {
+    console.log(productData.price);
+    const newSubtotal = shopState.cartItemsSubtotal + productData.price;
+    setCartSubtotal(newSubtotal);
+  }
 
   return (
     <Grid
@@ -105,7 +115,6 @@ const ProductCard = (props) => {
           alignItems="center"
           justifyContent="flex-start"
           component="fieldset"
-          // mb={3}
           style={{
             borderColor: 'transparent',
             paddingLeft: 0
@@ -123,7 +132,7 @@ const ProductCard = (props) => {
         component="section"
       >
         <Typography className={classes.productPrice} component="p">
-          $ {productData.price}
+          $ {formatPrice(productData.price)}
         </Typography>
         <SimpleSelect
           label="Qt."
@@ -137,11 +146,24 @@ const ProductCard = (props) => {
           {productData.amount}
         </Typography> */}
       </Grid>
-      <Button className={classes.addButton} variant="outlinde" color="secondary">
+      <Button
+        onClick={() => handleAddToCart()}
+        className={classes.addButton}
+        variant="outlinde"
+        color="secondary"
+      >
         Add to cart
       </Button>
     </Grid>
   );
 }
 
-export default ProductCard;
+const mapStateToProps = (state) => ({
+  shopState: state.shopReducer
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  setCartSubtotal: (newSubtotal) => dispatch(setCartSubtotalAction(newSubtotal)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductCard);
